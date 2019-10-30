@@ -1,0 +1,38 @@
+PODS:
+  - AeroGearHttp (2.0.0)
+  - AeroGearOAuth2 (2.0.0):
+    - AeroGearHttp (= 2.0.0)
+  - OAuthSwift (2.1.0)
+
+DEPENDENCIES:
+  - AeroGearOAuth2 (from `https://github.com/aerogear/aerogear-ios-oauth2.git`, branch `master`)
+  - OAuthSwift (from `https://github.com/OAuthSwift/OAuthSwift.git`, branch `2.1.0`)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - AeroGearHttp
+
+EXTERNAL SOURCES:
+  AeroGearOAuth2:
+    :branch: master
+    :git: https://github.com/aerogear/aerogear-ios-oauth2.git
+  OAuthSwift:
+    :branch: 2.1.0
+    :git: https://github.com/OAuthSwift/OAuthSwift.git
+
+CHECKOUT OPTIONS:
+  AeroGearOAuth2:
+    :commit: 47a993a130c96ff8fef2124ac9eb9a39b73f59e0
+    :git: https://github.com/aerogear/aerogear-ios-oauth2.git
+  OAuthSwift:
+    :commit: 4aae467bb6aa3c8437b4aba31578a0087bbf6738
+    :git: https://github.com/OAuthSwift/OAuthSwift.git
+
+SPEC CHECKSUMS:
+  AeroGearHttp: 65bf374aefd3521e1d8d33547e4db96047b745aa
+  AeroGearOAuth2: 5e25b88a9babdb47e9dc92da9156dbe735105615
+  OAuthSwift: d55b410601b28f93595ca5dc60549120598aafad
+
+PODFILE CHECKSUM: 52664dab8bc125036c19eb704c8c05ec4f19f4d7
+
+COCOAPODS: 1.8.4
