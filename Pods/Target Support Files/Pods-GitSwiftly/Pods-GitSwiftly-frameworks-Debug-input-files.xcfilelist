@@ -1,4 +1,5 @@
 ${PODS_ROOT}/Target Support Files/Pods-GitSwiftly/Pods-GitSwiftly-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/AeroGearHttp/AeroGearHttp.framework
 ${BUILT_PRODUCTS_DIR}/AeroGearOAuth2/AeroGearOAuth2.framework
+${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework
 ${BUILT_PRODUCTS_DIR}/OAuthSwift/OAuthSwift.framework

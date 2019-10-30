@@ -2,15 +2,20 @@ PODS:
   - AeroGearHttp (2.0.0)
   - AeroGearOAuth2 (2.0.0):
     - AeroGearHttp (= 2.0.0)
+  - Kingfisher/Core (5.9.0)
+  - Kingfisher/SwiftUI (5.9.0):
+    - Kingfisher/Core
   - OAuthSwift (2.1.0)
 
 DEPENDENCIES:
   - AeroGearOAuth2 (from `https://github.com/aerogear/aerogear-ios-oauth2.git`, branch `master`)
+  - Kingfisher/SwiftUI
   - OAuthSwift (from `https://github.com/OAuthSwift/OAuthSwift.git`, branch `2.1.0`)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - AeroGearHttp
+    - Kingfisher
 
 EXTERNAL SOURCES:
   AeroGearOAuth2:
@@ -31,8 +36,9 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AeroGearHttp: 65bf374aefd3521e1d8d33547e4db96047b745aa
   AeroGearOAuth2: 5e25b88a9babdb47e9dc92da9156dbe735105615
+  Kingfisher: ff98240aebb7302bdc4f1ecd701761030ce18b16
   OAuthSwift: d55b410601b28f93595ca5dc60549120598aafad
 
-PODFILE CHECKSUM: 52664dab8bc125036c19eb704c8c05ec4f19f4d7
+PODFILE CHECKSUM: a9faedc48e21f7b0ec4673ba7b3397784e955577
 
 COCOAPODS: 1.8.4
