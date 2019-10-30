@@ -1,4 +1,7 @@
-![GitSwiftly](../assets/logo.png?raw=true)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/jfeigel/GitSwiftly/assets/logo.png" alt="GitSwiftly" title="GitSwiftly" width="192" />
+</p>
+
 # GitSwiftly
 > GitHub client built natively with Swift.
 
