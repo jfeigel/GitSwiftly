@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/jfeigel/GitSwiftly/assets/logo.png" alt="GitSwiftly" title="GitSwiftly" width="192" />
+  <img src="https://raw.githubusercontent.com/jfeigel/GitSwiftly/assets/logo.png?token=ABBPUCIIX6GRIULYWUWXLCK5XGVXU" alt="GitSwiftly" title="GitSwiftly" width="192" />
 </p>
 
 # GitSwiftly
