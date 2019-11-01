@@ -11,7 +11,7 @@ import SwiftUI
 struct LoginView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    @EnvironmentObject var env: Env
+    @EnvironmentObject var gitHub: GitHub
     
     @State private var showAlert = false
     @State private var alert: Alert = nil
@@ -24,9 +24,9 @@ struct LoginView: View {
     }
     
     private func login() {
-        env.gitHub.login() {
+        gitHub.login() {
             (accessToken, claims, error) in
-            if (error != nil) {
+            if error != nil {
                 self.alert = Alert(title: Text("Error"), message: Text(error!.localizedDescription))
             } else {
                 self.alert = Alert(title: Text("Success"),

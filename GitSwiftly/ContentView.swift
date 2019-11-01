@@ -7,9 +7,10 @@
 //
 
 import SwiftUI
+import struct Kingfisher.KFImage
 
 struct ContentView: View {
-    @EnvironmentObject var env: Env
+    @EnvironmentObject var gitHub: GitHub
     
     @State var alert: Alert = nil
     @State var showAlert = false
@@ -18,24 +19,33 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             Text("")
-            .navigationBarTitle(Text("GitSwiftly"))
-            .navigationBarItems(trailing:
-                NavigationLink(destination: UserView().environmentObject(env)) {
-                    Text("User")
-                }
+                .navigationBarTitle(Text("GitSwiftly"))
+                .navigationBarItems(trailing:
+                    NavigationLink(destination: UserView().environmentObject(gitHub)) {
+                        if self.gitHub.user == nil {
+                            Image(systemName: "person.circle.fill")
+                        } else {
+                            KFImage(URL(string: self.gitHub.user!.avatar_url))
+                                .resizable()
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
+                        }
+                    }
+                    .disabled(self.gitHub.user == nil)
+                    .buttonStyle(PlainButtonStyle())
             )
-            .onAppear(perform: { self.checkIsAuthorized() })
-            .sheet(isPresented: $showLogin) {
-                LoginView().environmentObject(self.env)
+                .sheet(isPresented: $showLogin) {
+                    LoginView().environmentObject(self.gitHub)
             }
             .alert(isPresented: $showAlert, content: { self.alert! })
         }
+        .onAppear(perform: { self.checkIsAuthorized() })
     }
     
     private func checkIsAuthorized() {
-        env.gitHub.isAuthorized() {
+        gitHub.isAuthorized() {
             (isAuthorized, error) in
-            if (error != nil) {
+            if error != nil {
                 self.alert = Alert(title: Text("Error"), message: Text(error!.localizedDescription))
                 self.showAlert = true
             } else {

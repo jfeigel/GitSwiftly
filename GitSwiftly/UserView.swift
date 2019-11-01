@@ -7,16 +7,44 @@
 //
 
 import SwiftUI
+import struct Kingfisher.KFImage
 
 struct UserView: View {
-    @EnvironmentObject var env: Env
+    @EnvironmentObject var gitHub: GitHub
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(env.gitHub.user!.name)
-                .font(.title)
-                .onAppear(perform: { print(self.env.gitHub.user!) })
+        ZStack {
+            VStack {
+                Text("")
+            }
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 500, alignment: .topLeading)
+            .clipped()
+            .background(Color(UIColor.systemBackground))
+            .shadow(radius: 10)
+            VStack {
+                KFImage(URL(string: self.gitHub.user!.avatar_url))
+                    .clipShape(Circle())
+                    .overlay(
+                        Circle().stroke(Color.white, lineWidth: 4))
+                    .shadow(radius: 10)
+                    .offset(y: -93.5)
+                    .padding(.bottom, -93.5)
+                VStack(alignment: .leading) {
+                    Text(self.gitHub.user!.name)
+                        .font(.title)
+                    Text(self.gitHub.user!.login)
+                        .font(.headline)
+                }
+                .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
+                .padding(20)
+            }
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 500, alignment: .topLeading)
+            .background(Color(UIColor.systemBackground))
         }
+        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .bottom)
+        .background(Color(UIColor.systemGray2))
+        .clipped()
+        .navigationBarTitle("", displayMode: .inline)
     }
 }
 
