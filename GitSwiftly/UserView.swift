@@ -34,6 +34,9 @@ struct UserView: View {
                         .font(.title)
                     Text(self.gitHub.user!.login)
                         .font(.headline)
+                    List(self.gitHub.repos ?? []) { repo in
+                        RepoRowView(repo: repo)
+                    }
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
                 .padding(20)
@@ -49,7 +52,9 @@ struct UserView: View {
 }
 
 struct UserView_Previews: PreviewProvider {
+    static let gitHub: GitHub = GitHub()
+    
     static var previews: some View {
-        UserView()
+        UserView().environmentObject(gitHub)
     }
 }

@@ -12,30 +12,30 @@ import struct Kingfisher.KFImage
 struct ContentView: View {
     @EnvironmentObject var gitHub: GitHub
     
-    @State var alert: Alert = nil
-    @State var showAlert = false
-    @State var showLogin = false
+    @State private var alert: Alert = nil
+    @State private var showAlert = false
+    @State private var showLogin = false
     
     var body: some View {
         NavigationView {
             Text("")
-                .navigationBarTitle(Text("GitSwiftly"))
-                .navigationBarItems(trailing:
-                    NavigationLink(destination: UserView().environmentObject(gitHub)) {
-                        if self.gitHub.user == nil {
-                            Image(systemName: "person.circle.fill")
-                        } else {
-                            KFImage(URL(string: self.gitHub.user!.avatar_url))
-                                .resizable()
-                                .frame(width: 40, height: 40)
-                                .clipShape(Circle())
-                        }
+            .navigationBarTitle(Text("GitSwiftly"))
+            .navigationBarItems(trailing:
+                NavigationLink(destination: UserView().environmentObject(gitHub)) {
+                    if self.gitHub.user == nil {
+                        Image(systemName: "person.circle.fill")
+                    } else {
+                        KFImage(URL(string: self.gitHub.user!.avatar_url))
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .clipShape(Circle())
                     }
-                    .disabled(self.gitHub.user == nil)
-                    .buttonStyle(PlainButtonStyle())
+                }
+                .disabled(self.gitHub.user == nil)
+                .buttonStyle(PlainButtonStyle())
             )
-                .sheet(isPresented: $showLogin) {
-                    LoginView().environmentObject(self.gitHub)
+            .sheet(isPresented: $showLogin) {
+                LoginView().environmentObject(self.gitHub)
             }
             .alert(isPresented: $showAlert, content: { self.alert! })
         }
@@ -56,7 +56,9 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
+    static let gitHub: GitHub = GitHub()
+    
     static var previews: some View {
-        ContentView()
+        ContentView().environmentObject(gitHub)
     }
 }
