@@ -24,8 +24,9 @@ struct ContentView: View {
                 NavigationLink(destination: UserView().environmentObject(gitHub)) {
                     if self.gitHub.user == nil {
                         Image(systemName: "person.circle.fill")
+                            .font(.system(size: 40))
                     } else {
-                        KFImage(URL(string: self.gitHub.user!.avatar_url))
+                        KFImage(URL(string: self.gitHub.user!.avatarUrl))
                             .resizable()
                             .frame(width: 40, height: 40)
                             .clipShape(Circle())

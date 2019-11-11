@@ -13,41 +13,46 @@ struct UserView: View {
     @EnvironmentObject var gitHub: GitHub
     
     var body: some View {
-        ZStack {
-            VStack {
-                Text("")
-            }
-            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 500, alignment: .topLeading)
-            .clipped()
-            .background(Color(UIColor.systemBackground))
-            .shadow(radius: 10)
-            VStack {
-                KFImage(URL(string: self.gitHub.user!.avatar_url))
-                    .clipShape(Circle())
-                    .overlay(
-                        Circle().stroke(Color.white, lineWidth: 4))
-                    .shadow(radius: 10)
-                    .offset(y: -93.5)
-                    .padding(.bottom, -93.5)
-                VStack(alignment: .leading) {
-                    Text(self.gitHub.user!.name)
-                        .font(.title)
-                    Text(self.gitHub.user!.login)
-                        .font(.headline)
-                    List(self.gitHub.repos ?? []) { repo in
-                        RepoRowView(repo: repo)
-                    }
+        GeometryReader { metrics in
+            ZStack {
+                VStack {
+                    Text("")
                 }
-                .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
-                .padding(20)
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: metrics.size.height * 0.8, alignment: .topLeading)
+                .clipped()
+                .background(Color(UIColor.systemBackground))
+                .shadow(color: Color(UIColor.systemGray4), radius: 10)
+                VStack {
+                    KFImage(URL(string: self.gitHub.user!.avatarUrl))
+                        .resizable()
+                        .frame(width: 128, height: 128)
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle().stroke(Color.white, lineWidth: 4))
+                        .shadow(radius: 10)
+                        .offset(y: -62)
+                        .padding(.bottom, -62)
+                    VStack(alignment: .leading) {
+                        Text(self.gitHub.user!.name)
+                            .font(.title)
+                        Text(self.gitHub.user!.login)
+                            .font(.headline)
+                        Spacer()
+                        Text("Pinned Repositories")
+                            .font(.headline)
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .leading)
+                    .padding(EdgeInsets(top: 15, leading: 15, bottom: 0, trailing: 15))
+                    RepoRowView(repos: self.gitHub.repos!).environmentObject(self.gitHub)
+                }
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: metrics.size.height * 0.8)
+                .background(Color(UIColor.systemBackground))
             }
-            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 500, alignment: .topLeading)
-            .background(Color(UIColor.systemBackground))
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .bottom)
+            .background(Color(UIColor.systemGray4))
+            .clipped()
+            .navigationBarTitle("User", displayMode: .inline)
         }
-        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .bottom)
-        .background(Color(UIColor.systemGray2))
-        .clipped()
-        .navigationBarTitle("", displayMode: .inline)
     }
 }
 

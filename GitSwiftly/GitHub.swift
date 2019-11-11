@@ -12,13 +12,13 @@ import AeroGearHttp
 import AeroGearOAuth2
 
 class GitHub: ObservableObject {
-    var http: Http
+    var baseHttp: Http
     var githubConfig: Config
     var requestSerializer: HttpRequestSerializer
     var gdModule: OAuth2Module
     
     @Published var user: User?
-    @Published var repos: [Repo]?
+    @Published var repos: [Repository]?
     @Published var loading: Bool = false {
         didSet {
             if oldValue == false && loading == true {
@@ -29,30 +29,24 @@ class GitHub: ObservableObject {
     }
     
     init() {
-        self.http = Http(baseURL: "https://api.github.com")
+        self.baseHttp = Http(baseURL: "https://api.github.com")
         self.githubConfig = Config(base: "", authzEndpoint: "https://github.com/login/oauth/authorize", redirectURL: "\(Bundle.main.bundleIdentifier!)://oauth2Callback", accessTokenEndpoint: "https://github.com/login/oauth/access_token", clientId: "cedcb77b01d605d8626b", userInfoEndpoint: "https://api.github.com/user", scopes: ["repo", "user"], clientSecret: "0afd81c483d727ddd468c68da8eaed130858d525")
         self.requestSerializer = HttpRequestSerializer()
         self.gdModule = OAuth2Module.init(config: self.githubConfig, requestSerializer: self.requestSerializer)
-        self.http.authzModule = gdModule
+        self.baseHttp.authzModule = gdModule
     }
     
     func refresh() {
         self.requestJson(method: .get, path: "/user") {
             (response, error) in
-            print(response)
             if error == nil {
                 do {
-                    print("decoding user data")
                     self.user = try JSONDecoder().decode(User.self, from: response as! Data)
-                    print("user data decoded")
                 } catch let decodeError {
                     print("ERROR:", decodeError)
                 }
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
-                    print("ending loading")
-                    self.loading = false
-                }
+                self.loading = false
             }
         }
     }
@@ -60,25 +54,46 @@ class GitHub: ObservableObject {
     func isAuthorized(_ completionHandler: @escaping (Bool, NSError?) -> Void) {
         if self.gdModule.isAuthorized() {
             if user == nil {
-                self.requestJson(method: .get, path: "/user") {
+                self.gqlRequest(body: ["query": """
+                    query {\
+                        viewer {\
+                            avatarUrl\
+                            company\
+                            id\
+                            login\
+                            name\
+                            url\
+                            pinnedRepositories(first: 6) {\
+                                nodes {\
+                                    id\
+                                    name\
+                                    description\
+                                    url\
+                                    primaryLanguage {\
+                                        color\
+                                        id\
+                                        name\
+                                    }\
+                                    stargazers {\
+                                        totalCount\
+                                    }\
+                                }\
+                            }\
+                        }\
+                    }
+                """]) {
                     (response, error) in
                     if error != nil {
                         completionHandler(false, error)
-                    } else {
-                        do {
-                            self.user = try JSONDecoder().decode(User.self, from: response as! Data)
-                            self.requestJson(method: .get, path: "/users/\(self.user!.login)/repos") {
-                                (reposResponse, reposError) in
-                                do {
-                                    self.repos = try JSONDecoder().decode([Repo].self, from: reposResponse as! Data)
-                                } catch let reposDecodeError {
-                                    print("ERROR:", reposDecodeError)
-                                }
-                            }
-                            completionHandler(true, nil)
-                        } catch let decodeError {
-                            completionHandler(false, decodeError as NSError)
-                        }
+                    }
+                    do {
+                        let jsonData = try JSONSerialization.data(withJSONObject: response!, options: .prettyPrinted)
+                        let decodedData = try JSONDecoder().decode(UserResponse.self, from: jsonData)
+                        self.user = decodedData.data.viewer
+                        self.repos = decodedData.data.viewer.pinnedRepositories.nodes
+                        completionHandler(true, nil)
+                    } catch {
+                        completionHandler(false, error as NSError)
                     }
                 }
             } else {
@@ -91,31 +106,32 @@ class GitHub: ObservableObject {
     
     func login(_ completionHandler: @escaping (AnyObject?, OpenIdClaim?, NSError?) -> Void) {
         self.requestSerializer.headers = ["Accept": "application/json"]
-        self.gdModule.login() {
-            (response, claims, error) in
-            if error != nil {
-                completionHandler(nil, nil, error)
-            } else {
-                self.requestJson(method: .get, path: "/user") {
-                    (userResponse, userError) in
-                    if userError != nil {
-                        completionHandler(nil, nil, userError)
-                    } else {
-                        do {
-                            self.user = try JSONDecoder().decode(User.self, from: userResponse as! Data)
-                            completionHandler(response, claims, error)
-                        } catch let decodeError {
-                            completionHandler(nil, nil, decodeError as NSError)
-                        }
-                    }
-                }
-            }
-        }
+        self.gdModule.login(completionHandler: completionHandler)
+//        self.gdModule.login() {
+//            (response, claims, error) in
+//            if error != nil {
+//                completionHandler(nil, nil, error)
+//            } else {
+//                self.requestJson(method: .get, path: "/user") {
+//                    (userResponse, userError) in
+//                    if userError != nil {
+//                        completionHandler(nil, nil, userError)
+//                    } else {
+//                        do {
+//                            self.user = try JSONDecoder().decode(User.self, from: userResponse as! Data)
+//                            completionHandler(response, claims, error)
+//                        } catch let decodeError {
+//                            completionHandler(nil, nil, decodeError as NSError)
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
     
     private func requestJson(method: HttpMethod, path: String, _ completionHandler: @escaping CompletionBlock) {
         self.requestSerializer.headers = ["Accept": "application/json"]
-        self.http.request(method: method, path: path) {
+        self.baseHttp.request(method: method, path: path) {
             (response, error) in
             if error == nil {
                 do {
@@ -128,5 +144,10 @@ class GitHub: ObservableObject {
                 completionHandler(nil, error)
             }
         }
+    }
+    
+    private func gqlRequest(body: [String: Any]?, _ completionHandler: @escaping CompletionBlock) {
+        self.requestSerializer.headers = ["Accept": "application/json"]
+        self.baseHttp.request(method: .post, path: "/graphql", parameters: body, completionHandler: completionHandler)
     }
 }

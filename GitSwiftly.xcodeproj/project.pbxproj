@@ -22,12 +22,15 @@
 		17222FD223691DEB0006B175 /* GitSwiftlyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17222FD123691DEB0006B175 /* GitSwiftlyUITests.swift */; };
 		177B8284236D23D1007085B9 /* devicon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 177B8283236D23D1007085B9 /* devicon.ttf */; };
 		177B8286236D25CC007085B9 /* IconFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177B8285236D25CC007085B9 /* IconFonts.swift */; };
-		177B8288236D46B6007085B9 /* Repo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177B8287236D46B6007085B9 /* Repo.swift */; };
 		177B828A236D4DFC007085B9 /* RepoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177B8289236D4DFC007085B9 /* RepoRowView.swift */; };
 		179B8E21236BF78F00A82976 /* AppIcon_Light@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 179B8E1D236BF78F00A82976 /* AppIcon_Light@2x.png */; };
 		179B8E22236BF78F00A82976 /* AppIcon_Dark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 179B8E1E236BF78F00A82976 /* AppIcon_Dark@3x.png */; };
 		179B8E23236BF78F00A82976 /* AppIcon_Dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 179B8E1F236BF78F00A82976 /* AppIcon_Dark@2x.png */; };
 		179B8E24236BF78F00A82976 /* AppIcon_Light@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 179B8E20236BF78F00A82976 /* AppIcon_Light@3x.png */; };
+		17B5ACD023761333000BB233 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B5ACCF23761333000BB233 /* Repository.swift */; };
+		17BC7F762379A6900038BDDE /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BC7F752379A6900038BDDE /* ColorHex.swift */; };
+		17BC7F782379D66E0038BDDE /* RepositoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BC7F772379D66E0038BDDE /* RepositoryView.swift */; };
+		17BC7F7C2379DB820038BDDE /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BC7F7B2379DB820038BDDE /* WebView.swift */; };
 		64FFE30F788988E47C05F708 /* Pods_GitSwiftly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3854052372BB84C1F327A1 /* Pods_GitSwiftly.framework */; };
 /* End PBXBuildFile section */
 
@@ -70,12 +73,15 @@
 		17222FD323691DEB0006B175 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		177B8283236D23D1007085B9 /* devicon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = devicon.ttf; sourceTree = "<group>"; };
 		177B8285236D25CC007085B9 /* IconFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconFonts.swift; sourceTree = "<group>"; };
-		177B8287236D46B6007085B9 /* Repo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repo.swift; sourceTree = "<group>"; };
 		177B8289236D4DFC007085B9 /* RepoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoRowView.swift; sourceTree = "<group>"; };
 		179B8E1D236BF78F00A82976 /* AppIcon_Light@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon_Light@2x.png"; sourceTree = "<group>"; };
 		179B8E1E236BF78F00A82976 /* AppIcon_Dark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon_Dark@3x.png"; sourceTree = "<group>"; };
 		179B8E1F236BF78F00A82976 /* AppIcon_Dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon_Dark@2x.png"; sourceTree = "<group>"; };
 		179B8E20236BF78F00A82976 /* AppIcon_Light@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon_Light@3x.png"; sourceTree = "<group>"; };
+		17B5ACCF23761333000BB233 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		17BC7F752379A6900038BDDE /* ColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHex.swift; sourceTree = "<group>"; };
+		17BC7F772379D66E0038BDDE /* RepositoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryView.swift; sourceTree = "<group>"; };
+		17BC7F7B2379DB820038BDDE /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		3C3854052372BB84C1F327A1 /* Pods_GitSwiftly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GitSwiftly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C956DA800599E7F8C0750F64 /* Pods-GitSwiftly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GitSwiftly.debug.xcconfig"; path = "Target Support Files/Pods-GitSwiftly/Pods-GitSwiftly.debug.xcconfig"; sourceTree = "<group>"; };
 		EC1CC7B756A74B785A2153FB /* Pods-GitSwiftly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GitSwiftly.release.xcconfig"; path = "Target Support Files/Pods-GitSwiftly/Pods-GitSwiftly.release.xcconfig"; sourceTree = "<group>"; };
@@ -132,23 +138,28 @@
 		17222FAE23691DEA0006B175 /* GitSwiftly */ = {
 			isa = PBXGroup;
 			children = (
+				17222FB323691DEA0006B175 /* ContentView.swift */,
+				171B2ECB23691F6B0071A299 /* LoginView.swift */,
+				177B8289236D4DFC007085B9 /* RepoRowView.swift */,
+				17BC7F772379D66E0038BDDE /* RepositoryView.swift */,
+				17106303237263D900649367 /* RefreshableScrollView.swift */,
+				171B2ECF23691FB80071A299 /* UserView.swift */,
+				17BC7F7B2379DB820038BDDE /* WebView.swift */,
+				17BC7F7A2379D68C0038BDDE /* Views */,
+				17BC7F792379D6780038BDDE /* Models */,
 				177B8282236D23BB007085B9 /* Fonts */,
 				179B8E14236BE5B900A82976 /* CustomAppIcons */,
+				171B2EC923691F480071A299 /* GitHub.swift */,
+				171B2ECD23691F9F0071A299 /* User.swift */,
+				17B5ACCF23761333000BB233 /* Repository.swift */,
+				177B8285236D25CC007085B9 /* IconFonts.swift */,
+				17BC7F752379A6900038BDDE /* ColorHex.swift */,
 				17222FAF23691DEA0006B175 /* AppDelegate.swift */,
 				17222FB123691DEA0006B175 /* SceneDelegate.swift */,
-				17222FB323691DEA0006B175 /* ContentView.swift */,
-				171B2EC923691F480071A299 /* GitHub.swift */,
-				177B8285236D25CC007085B9 /* IconFonts.swift */,
-				171B2ECB23691F6B0071A299 /* LoginView.swift */,
-				177B8287236D46B6007085B9 /* Repo.swift */,
-				171B2ECD23691F9F0071A299 /* User.swift */,
-				171B2ECF23691FB80071A299 /* UserView.swift */,
-				177B8289236D4DFC007085B9 /* RepoRowView.swift */,
 				17222FB523691DEB0006B175 /* Assets.xcassets */,
 				17222FBA23691DEB0006B175 /* LaunchScreen.storyboard */,
 				17222FBD23691DEB0006B175 /* Info.plist */,
 				17222FB723691DEB0006B175 /* Preview Content */,
-				17106303237263D900649367 /* RefreshableScrollView.swift */,
 			);
 			path = GitSwiftly;
 			sourceTree = "<group>";
@@ -196,6 +207,20 @@
 				179B8E20236BF78F00A82976 /* AppIcon_Light@3x.png */,
 			);
 			path = CustomAppIcons;
+			sourceTree = "<group>";
+		};
+		17BC7F792379D6780038BDDE /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		17BC7F7A2379D68C0038BDDE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		797CF989D8CA2ED6A8535BDD /* Pods */ = {
@@ -396,9 +421,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				17222FB023691DEA0006B175 /* AppDelegate.swift in Sources */,
+				17BC7F782379D66E0038BDDE /* RepositoryView.swift in Sources */,
+				17BC7F762379A6900038BDDE /* ColorHex.swift in Sources */,
 				17222FB223691DEA0006B175 /* SceneDelegate.swift in Sources */,
 				171B2ECE23691F9F0071A299 /* User.swift in Sources */,
-				177B8288236D46B6007085B9 /* Repo.swift in Sources */,
 				171B2ECA23691F480071A299 /* GitHub.swift in Sources */,
 				171B2ECC23691F6B0071A299 /* LoginView.swift in Sources */,
 				177B8286236D25CC007085B9 /* IconFonts.swift in Sources */,
@@ -406,6 +432,8 @@
 				171B2ED023691FB80071A299 /* UserView.swift in Sources */,
 				177B828A236D4DFC007085B9 /* RepoRowView.swift in Sources */,
 				17106304237263D900649367 /* RefreshableScrollView.swift in Sources */,
+				17B5ACD023761333000BB233 /* Repository.swift in Sources */,
+				17BC7F7C2379DB820038BDDE /* WebView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
