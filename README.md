@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/jfeigel/GitSwiftly/assets/logo.png?token=ABBPUCIIX6GRIULYWUWXLCK5XGVXU" alt="GitSwiftly" title="GitSwiftly" width="192" />
+  <img src="https://raw.githubusercontent.com/jfeigel/GitSwiftly/assets/logo.png" alt="GitSwiftly" title="GitSwiftly" width="192" />
 </p>
 
 # GitSwiftly
@@ -24,9 +24,9 @@ We would love you for the contribution to **GitSwiftly**, check the ``LICENSE`` 
 
 ## Meta
 
-Your Name – [@jafeigel](https://twitter.com/jafeigel) – james.feigel@gmail.com
+James Feigel – [@jafeigel](https://twitter.com/jafeigel) – james.feigel@gmail.com
 
-Distributed under the XYZ license. See ``LICENSE`` for more information.
+Distributed under the GNU GPLv3 license. See ``LICENSE`` for more information.
 
 [https://github.com/jfeigel](https://github.com/jfeigel/)
 
