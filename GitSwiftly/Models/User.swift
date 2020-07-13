@@ -24,4 +24,5 @@ struct User: Codable {
     var name: String
     var url: String
     var pinnedRepositories: PinnedRepositories
+    var organizations: Organizations
 }

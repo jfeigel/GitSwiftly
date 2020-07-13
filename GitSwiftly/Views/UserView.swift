@@ -12,13 +12,15 @@ import struct Kingfisher.KFImage
 struct UserView: View {
     @EnvironmentObject var gitHub: GitHub
     
+    @State private var showLogout = false
+    
     var body: some View {
-        GeometryReader { metrics in
+        GeometryReader { g in
             ZStack {
                 VStack {
                     Text("")
                 }
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: metrics.size.height * 0.8, alignment: .topLeading)
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: g.size.height * 0.8, alignment: .topLeading)
                 .clipped()
                 .background(Color(UIColor.systemBackground))
                 .shadow(color: Color(UIColor.systemGray4), radius: 10)
@@ -43,15 +45,34 @@ struct UserView: View {
                     }
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .leading)
                     .padding(EdgeInsets(top: 15, leading: 15, bottom: 0, trailing: 15))
-                    RepoRowView(repos: self.gitHub.repos!).environmentObject(self.gitHub)
+                    RepositoryRowView(repos: self.gitHub.repos!).environmentObject(self.gitHub)
                 }
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: metrics.size.height * 0.8)
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: g.size.height * 0.8)
                 .background(Color(UIColor.systemBackground))
             }
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .bottom)
             .background(Color(UIColor.systemGray4))
             .clipped()
-            .navigationBarTitle("User", displayMode: .inline)
+            .navigationBarTitle("User")
+            .navigationBarItems(trailing:
+                Button(action: { self.showLogout = true }) {
+                    Image(systemName: "person.crop.circle.badge.xmark")
+                }
+            )
+            .alert(isPresented: self.$showLogout) {
+                Alert(title: Text("Logout"), message: Text("Are you sure you want to logout?"), primaryButton: .destructive(Text("Logout"), action: self.logout), secondaryButton: .cancel(Text("Cancel")))
+            }
+        }
+    }
+    
+    private func logout() {
+        self.gitHub.logout() {
+            (response, error) in
+            if error != nil {
+                print("ERROR", error!)
+            } else {
+                print("SUCCESS", response!)
+            }
         }
     }
 }

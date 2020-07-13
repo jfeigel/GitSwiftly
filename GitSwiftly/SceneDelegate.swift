@@ -8,23 +8,31 @@
 
 import UIKit
 import SwiftUI
+import AuthenticationServices
 import AeroGearOAuth2
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     var gitHub = GitHub()
+    
+    private(set) static var shared: SceneDelegate?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+        
+        Self.shared = self
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: ContentView().environmentObject(gitHub))
+            window.rootViewController = UIHostingController(rootView: ContentView().environmentObject(self.gitHub))
             self.window = window
+            self.gitHub.presentationAnchor = window
+            UISwitch.appearance().onTintColor = .systemGray4
+            UISwitch.appearance().tintColor = .systemGray4
             window.makeKeyAndVisible()
         }
     }

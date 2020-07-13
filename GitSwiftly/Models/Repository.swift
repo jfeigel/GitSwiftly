@@ -15,6 +15,8 @@ struct Repository: Codable, Identifiable {
     var url: String
     var primaryLanguage: PrimaryLanguage
     var stargazers: Stargazers
+    var upperReadme: Readme?
+    var lowerReadme: Readme?
 
     struct PrimaryLanguage: Codable {
         var color: String
@@ -24,6 +26,10 @@ struct Repository: Codable, Identifiable {
 
     struct Stargazers: Codable {
         var totalCount: Int
+    }
+    
+    struct Readme: Codable {
+        var text: String
     }
 }
 

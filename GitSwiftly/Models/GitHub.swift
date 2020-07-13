@@ -7,7 +7,9 @@
 //
 
 import Foundation
+import UIKit
 import Combine
+import AuthenticationServices
 import AeroGearHttp
 import AeroGearOAuth2
 
@@ -19,6 +21,8 @@ class GitHub: ObservableObject {
     
     @Published var user: User?
     @Published var repos: [Repository]?
+    @Published var orgs: [Organization]?
+    @Published var presentationAnchor: ASPresentationAnchor? = nil
     @Published var loading: Bool = false {
         didSet {
             if oldValue == false && loading == true {
@@ -30,9 +34,10 @@ class GitHub: ObservableObject {
     
     init() {
         self.baseHttp = Http(baseURL: "https://api.github.com")
-        self.githubConfig = Config(base: "", authzEndpoint: "https://github.com/login/oauth/authorize", redirectURL: "\(Bundle.main.bundleIdentifier!)://oauth2Callback", accessTokenEndpoint: "https://github.com/login/oauth/access_token", clientId: "cedcb77b01d605d8626b", userInfoEndpoint: "https://api.github.com/user", scopes: ["repo", "user"], clientSecret: "0afd81c483d727ddd468c68da8eaed130858d525")
-        self.requestSerializer = HttpRequestSerializer()
+        self.githubConfig = Config(base: "", authzEndpoint: "https://github.com/login/oauth/authorize", redirectURL: "\(Bundle.main.bundleIdentifier!)://oauth2Callback", accessTokenEndpoint: "https://github.com/login/oauth/access_token", clientId: "cedcb77b01d605d8626b", userInfoEndpoint: "https://api.github.com/user", scopes: ["repo", "user", "read:org"], clientSecret: "0afd81c483d727ddd468c68da8eaed130858d525", webView: .safariViewController)
+        self.requestSerializer = JsonRequestSerializer()
         self.gdModule = OAuth2Module.init(config: self.githubConfig, requestSerializer: self.requestSerializer)
+        self.gdModule.oauth2Session.clearTokens()
         self.baseHttp.authzModule = gdModule
     }
     
@@ -77,6 +82,23 @@ class GitHub: ObservableObject {
                                     stargazers {\
                                         totalCount\
                                     }\
+                                    upperReadme: object(expression: "master:README.md") {\
+                                        ... on Blob {\
+                                            text\
+                                        }\
+                                    }\
+                                    lowerReadme: object(expression: "master:readme.md") {\
+                                        ... on Blob {\
+                                            text\
+                                        }\
+                                    }\
+                                }\
+                            }\
+                            organizations(first: 10) {\
+                                nodes {\
+                                    avatarUrl\
+                                    id\
+                                    name\
                                 }\
                             }\
                         }\
@@ -91,6 +113,7 @@ class GitHub: ObservableObject {
                         let decodedData = try JSONDecoder().decode(UserResponse.self, from: jsonData)
                         self.user = decodedData.data.viewer
                         self.repos = decodedData.data.viewer.pinnedRepositories.nodes
+                        self.orgs = decodedData.data.viewer.organizations.nodes
                         completionHandler(true, nil)
                     } catch {
                         completionHandler(false, error as NSError)
@@ -104,9 +127,12 @@ class GitHub: ObservableObject {
         }
     }
     
-    func login(_ completionHandler: @escaping (AnyObject?, OpenIdClaim?, NSError?) -> Void) {
+    func login(_ completionHandler: @escaping (NSError?) -> Void) {
         self.requestSerializer.headers = ["Accept": "application/json"]
-        self.gdModule.login(completionHandler: completionHandler)
+        self.gdModule.login() {
+            (response, claims, error) in
+            completionHandler(error)
+        }
 //        self.gdModule.login() {
 //            (response, claims, error) in
 //            if error != nil {
@@ -127,6 +153,25 @@ class GitHub: ObservableObject {
 //                }
 //            }
 //        }
+    }
+    
+    func logout(_ completionHandler: @escaping (AnyObject?, NSError?) -> Void) {
+        let auth = self.githubConfig.clientId + ":" + (self.githubConfig.clientSecret ?? "")
+        let base64Auth: String = auth.base64Encoded()
+        self.baseHttp.request(method: .delete, path: "/applications/\(self.githubConfig.clientId)/tokens/\(self.gdModule.oauth2Session.accessToken ?? "")", customHeaders: ["Authorization": "Basic \(base64Auth)", "Content-Type": "application/x-www-form-urlencoded charset=utf-8"], responseSerializer: StringResponseSerializer()) {
+            (response, error) in
+            if error != nil {
+                print("ERROR", error ?? "Undefined error")
+                completionHandler(nil, error)
+            } else {
+                print(response ?? "No response")
+                self.gdModule.oauth2Session.clearTokens()
+                self.user = nil
+                self.repos = nil
+                self.orgs = nil
+                completionHandler(response as AnyObject?, nil)
+            }
+        }
     }
     
     private func requestJson(method: HttpMethod, path: String, _ completionHandler: @escaping CompletionBlock) {

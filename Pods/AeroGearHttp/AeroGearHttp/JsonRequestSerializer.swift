@@ -32,7 +32,7 @@ open class JsonRequestSerializer:  HttpRequestSerializer {
     :returns: the URLRequest object.
     */
     open override func request(url: URL, method: HttpMethod, parameters: [String: Any]?, headers: [String: String]? = nil) -> URLRequest {
-        if method == .get || method == .head || method == .delete {
+        if method == .get || method == .head {
             return super.request(url: url, method: method, parameters: parameters, headers: headers)
         } else {
             var request = URLRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeoutInterval)

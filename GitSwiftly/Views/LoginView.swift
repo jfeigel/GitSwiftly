@@ -14,7 +14,7 @@ struct LoginView: View {
     @EnvironmentObject var gitHub: GitHub
     
     @State private var showAlert = false
-    @State private var alert: Alert = nil
+    @State private var alert: Alert?
     
     var body: some View {
         Button(action: { self.login() }) {
@@ -25,18 +25,13 @@ struct LoginView: View {
     
     private func login() {
         gitHub.login() {
-            (accessToken, claims, error) in
+            (error) in
             if error != nil {
                 self.alert = Alert(title: Text("Error"), message: Text(error!.localizedDescription))
+                self.showAlert = true
             } else {
-                self.alert = Alert(title: Text("Success"),
-                                   message: Text("Successfully logged in"),
-                                   dismissButton: Alert.Button.default(Text("Dismiss"), action: { self.presentationMode.wrappedValue.dismiss() })
-                )
-                
+                self.presentationMode.wrappedValue.dismiss()
             }
-            
-            self.showAlert = true
         }
     }
 }

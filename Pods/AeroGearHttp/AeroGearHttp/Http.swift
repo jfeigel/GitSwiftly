@@ -120,7 +120,7 @@ open class Http {
      :param: method the method to be used.
      :param: completionHandler A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: The object created from the response data of request and the `NSError` object describing the network or parsing error that occurred.
      */
-    open func request(method: HttpMethod, path: String, parameters: [String: Any]? = nil, credential: URLCredential? = nil, responseSerializer: ResponseSerializer? = nil, completionHandler: @escaping CompletionBlock) {
+    open func request(method: HttpMethod, path: String, parameters: [String: Any]? = nil, credential: URLCredential? = nil, customHeaders: [String: String]? = nil, responseSerializer: ResponseSerializer? = nil, completionHandler: @escaping CompletionBlock) {
         let block: () -> Void =  {
             let finalOptURL = self.calculateURL(baseURL: self.baseURL, url: path)
             guard let finalURL = finalOptURL else {
@@ -133,7 +133,10 @@ open class Http {
             var task: URLSessionTask?
             var delegate: TaskDataDelegate
             // Merge headers
-            let headers = merge(self.requestSerializer.headers, self.authzModule?.authorizationFields())
+            var headers = merge(self.requestSerializer.headers, self.authzModule?.authorizationFields())
+            if customHeaders != nil {
+                headers = merge(headers, customHeaders)
+            }
             
             // care for multipart request is multipart data are set
             if (self.hasMultiPartData(httpParams: parameters)) {
